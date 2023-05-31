@@ -1,0 +1,197 @@
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author USER
+ */
+public class Assemblers extends Thread{
+    
+    private int assembler_id;
+    private float capacity;
+    private int wage;
+    private int cars_assembled;
+    private boolean hired;
+    private boolean working;
+    private String status;
+    private Warehouse chasis_warehouse;
+    private Warehouse wheels_warehouse;
+    private Warehouse bodywork_warehouse;
+    private Warehouse accesory_warehouse;
+    private Warehouse engine_warehouse;
+    private int days;
+    private int workday_duration;
+    private double sleep;
+    private Counter counter;
+    
+    public Assemblers(int assembler_id, float capacity, int wage, int cars_assembled, boolean hired, boolean working, String status, 
+                      Warehouse chasis_warehouse, Warehouse wheels_warehouse, Warehouse bodywork_warehouse, Warehouse accesory_warehouse, 
+                      Warehouse engine_warehouse,int days, int workday_duration, Counter counter){
+        
+        this.assembler_id = assembler_id;
+        this.capacity = capacity;
+        this.hired = hired;
+        this.wage = wage;
+        this.working = working;
+        this.status = status;
+        this.chasis_warehouse = chasis_warehouse;
+        this.bodywork_warehouse = bodywork_warehouse;
+        this.accesory_warehouse = accesory_warehouse;
+        this.wheels_warehouse = wheels_warehouse;
+        this.engine_warehouse = engine_warehouse;
+        this.workday_duration = workday_duration;
+        this.days = days;
+        this.sleep = sleep;
+        this.counter = counter;
+    };
+
+    public Warehouse getChasis_warehouse() {
+        return chasis_warehouse;
+    };
+
+    public void setChasis_warehouse(Warehouse chasis_warehouse) {
+        this.chasis_warehouse = chasis_warehouse;
+    };
+
+    public Warehouse getWheels_warehouse() {
+        return wheels_warehouse;
+    };
+
+    public void setWheels_warehouse(Warehouse wheels_warehouse) {
+        this.wheels_warehouse = wheels_warehouse;
+    };
+
+    public Warehouse getBodywork_warehouse() {
+        return bodywork_warehouse;
+    };
+
+    public void setBodywork_warehouse(Warehouse bodywork_warehouse) {
+        this.bodywork_warehouse = bodywork_warehouse;
+    };
+
+    public Warehouse getAccesory_warehouse() {
+        return accesory_warehouse;
+    };
+
+    public void setAccesory_warehouse(Warehouse accesory_warehouse) {
+        this.accesory_warehouse = accesory_warehouse;
+    };   
+
+    public int getAssembler_id() {
+        return assembler_id;
+    };
+
+    public void setAssembler_id(int assembler_id) {
+        this.assembler_id = assembler_id;
+    };
+
+    public float getCapacity() {
+        return capacity;
+    };
+
+    public void setCapacity(float capacity) {
+        this.capacity = capacity;
+    };
+
+    public int getWage() {
+        return wage;
+    };
+
+    public void setWage(int wage) {
+        this.wage = wage;
+    };
+
+    public int getCars_assembled() {
+        return cars_assembled;
+    };
+
+    public void setCars_assembled(int cars_assembled) {
+        this.cars_assembled = cars_assembled;
+    };
+
+    public boolean isHired() {
+        return hired;
+    };
+
+    public void setHired(boolean hired) {
+        this.hired = hired;
+    };
+
+    public boolean isWorking() {
+        return working;
+    };
+
+    public void setWorking(boolean working) {
+        this.working = working;
+    };
+
+    public String getStatus() {
+        return status;
+    };
+
+    public void setStatus(String status) {
+        this.status = status;
+    };
+    
+    @Override
+    public void run(){
+         
+        this.sleep = (Double.valueOf(days)*Double.valueOf(workday_duration)/Double.valueOf(capacity))*100;
+        
+        while(this.hired){
+            try {
+                this.accesory_warehouse.semaphore.acquire(1);
+                this.bodywork_warehouse.semaphore.acquire(1);
+                this.chasis_warehouse.semaphore.acquire(1);
+                this.wheels_warehouse.semaphore.acquire(1);
+                
+                if(this.bodywork_warehouse.available_parts >= 1 & this.chasis_warehouse.available_parts >= 1 & this.wheels_warehouse.available_parts >= 4 & this.engine_warehouse.available_parts >= 1){
+
+                    this.bodywork_warehouse.withdraw_parts(1);
+                    this.bodywork_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.bodywork_warehouse.available_parts);
+                    this.chasis_warehouse.withdraw_parts(1);
+                    this.chasis_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.chasis_warehouse.available_parts);
+                    this.wheels_warehouse.withdraw_parts(4);
+                    this.wheels_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.wheels_warehouse.available_parts);
+                    this.engine_warehouse.withdraw_parts(1);
+                    
+                    this.accesory_warehouse.semaphore.release();
+                    this.bodywork_warehouse.semaphore.release();
+                    this.chasis_warehouse.semaphore.release();
+                    this.wheels_warehouse.semaphore.release();
+                    
+                    this.engine_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.engine_warehouse.available_parts);
+                    this.status = "TRABAJANDO";
+                    System.out.println(this.status);
+                    System.out.println("Se han retirado las partes del almacén.");              
+                    sleep((long) this.sleep);
+                    
+                    this.cars_assembled = this.cars_assembled + 1;
+                    
+                    System.out.println("El trabajador " + this.assembler_id + " ha ensamblado un carro");
+                    System.out.println("***Numero de carros ensamblados por el ensamblador " + this.assembler_id + " " + this.cars_assembled);
+                    this.counter.cars_assembled = this.counter.cars_assembled + 1;
+                    
+                    
+                }else{
+                    
+                    this.accesory_warehouse.semaphore.release();
+                    this.bodywork_warehouse.semaphore.release();
+                    this.chasis_warehouse.semaphore.release();
+                    this.wheels_warehouse.semaphore.release();
+                    
+                    this.status = "OCIOSO";
+                };
+                
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Assemblers.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        };
+    };  
+};
