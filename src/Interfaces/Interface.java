@@ -1,10 +1,6 @@
 package Interfaces;
 import Main.Plant;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,7 +30,7 @@ public class Interface extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         addPlantBtn = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        run = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -49,7 +45,6 @@ public class Interface extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 651));
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
 
@@ -81,10 +76,10 @@ public class Interface extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Run");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        run.setText("Run");
+        run.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                runActionPerformed(evt);
             }
         });
 
@@ -104,7 +99,7 @@ public class Interface extends javax.swing.JFrame {
                 .addGap(244, 244, 244)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addPlantBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(250, Short.MAX_VALUE))
         );
@@ -115,7 +110,7 @@ public class Interface extends javax.swing.JFrame {
                 .addGap(78, 78, 78)
                 .addComponent(addPlantBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 113, Short.MAX_VALUE))
@@ -124,9 +119,15 @@ public class Interface extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
+        if (this.plants.length > 0) {
+            for (int i = 0; i < this.plants.length; i++) {
+                this.plants[i].start();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "You must add at least one plant to run the simulation.");
+        }
+    }//GEN-LAST:event_runActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -140,10 +141,10 @@ public class Interface extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addPlantBtn;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton run;
     // End of variables declaration//GEN-END:variables
 }
