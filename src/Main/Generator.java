@@ -1,3 +1,5 @@
+package Main;
+
 /**
  *
  * @author luism
@@ -76,8 +78,13 @@ public class Generator {
         }
    
     }
+
+    public int getGeneratorNumber() {
+        return generatorNumber;
+    }
     
 
+    
     public int getWorkCapacity(String work) {
         switch (work) {
             case "chasis":
