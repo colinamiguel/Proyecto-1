@@ -1,7 +1,12 @@
 package Interfaces;
+import Main.Generator;
 import Main.Plant;
 import javax.swing.JOptionPane;
-
+import javax.swing.JFileChooser;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedReader;
 /**
  *
  * @author USER
@@ -32,7 +37,8 @@ public class Interface extends javax.swing.JFrame {
         addPlantBtn = new javax.swing.JButton();
         run = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        loadData = new javax.swing.JButton();
+        uploadData = new javax.swing.JButton();
+        downloadData = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -91,10 +97,17 @@ public class Interface extends javax.swing.JFrame {
             }
         });
 
-        loadData.setText("Load Data");
-        loadData.addActionListener(new java.awt.event.ActionListener() {
+        uploadData.setText("Upload Data");
+        uploadData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadDataActionPerformed(evt);
+                uploadDataActionPerformed(evt);
+            }
+        });
+
+        downloadData.setText("Download Data");
+        downloadData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadDataActionPerformed(evt);
             }
         });
 
@@ -112,7 +125,9 @@ public class Interface extends javax.swing.JFrame {
                 .addContainerGap(250, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(loadData)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(uploadData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(downloadData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
@@ -125,8 +140,10 @@ public class Interface extends javax.swing.JFrame {
                 .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                .addComponent(loadData, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(downloadData, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(uploadData, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
 
@@ -153,18 +170,77 @@ public class Interface extends javax.swing.JFrame {
         new addPlant(this.plants).setVisible(true);
     }//GEN-LAST:event_addPlantBtnActionPerformed
 
-    private void loadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadDataActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loadDataActionPerformed
+    private void uploadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadDataActionPerformed
+        String aux = ""; 
+        try {
+            JFileChooser file = new JFileChooser();
+            file.showOpenDialog(file);
+            File open = file.getSelectedFile();
+
+            if (open != null) {
+                FileReader files = new FileReader(open);
+                BufferedReader read = new BufferedReader(files);
+                while ((aux = read.readLine()) != null) {
+                        String[] data = aux.split(",");
+                        Generator generator = new Generator(Integer.parseInt(data[0]));
+                        Plant plant = new Plant(data[1], Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]), Float.parseFloat(data[7]), Float.parseFloat(data[8]), Integer.parseInt(data[9]), generator);
+
+
+                        Plant[] newArray = new Plant[this.plants.length + 1];
+
+                          for (int i = 0; i < this.plants.length; i++) {
+                              newArray[i] = this.plants[i];
+                          }
+
+                          newArray[newArray.length - 1] = plant;
+                          this.plants = newArray;
+              
+                    }
+                read.close();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex + ""
+                    + "\nNo se ha encontrado el archivo o el archivo no tiene el formato correspondiente, por lo que se iniciara la aplicación sin informacion previa.",
+                    "ADVERTENCIA!!!", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_uploadDataActionPerformed
+
+    private void downloadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadDataActionPerformed
+        try {
+            JFileChooser file = new JFileChooser();
+            file.showSaveDialog(file);
+            File selectedFile = file.getSelectedFile();
+
+            if (selectedFile != null) {
+                String message = "";
+                for (int i = 0; i < this.plants.length; i++) {
+                    message +=  this.plants[i].name + "," + this.plants[i].generatedValues.getGeneratorNumber() + "," + this.plants[i].chasisPartsRequired + "," + this.plants[i].enginePartsRequired + "," + this.plants[i].bodyWorkPartsRequired + "," + this.plants[i].accesoriesPartsRequired + "," + this.plants[i].wheelsPartsRequired + "," + this.plants[i].standardCarPrice + "," + this.plants[i].accesoriesCarPrice + "," + this.plants[i].standardCarsBeforeAccesories + "," + "\n";
+                }
+                
+                FileWriter save;
+                save = new FileWriter(selectedFile);
+                save.write(message);
+                save.close();
+                JOptionPane.showMessageDialog(null,
+                        "El archivo se a guardado Exitosamente",
+                        "Información", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Su archivo no se ha guardado",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_downloadDataActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addPlantBtn;
+    private javax.swing.JButton downloadData;
     private javax.swing.JButton jButton3;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton loadData;
     private javax.swing.JButton run;
+    private javax.swing.JButton uploadData;
     // End of variables declaration//GEN-END:variables
 }
