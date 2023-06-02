@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Supervisor extends Thread{
-    
+    public int standardCarPrice;
     public int days_to_shipment;
     private Manager manager;
     private int wage;
@@ -28,7 +28,7 @@ public class Supervisor extends Thread{
     private boolean chose_time;
     private Counter counter;
     
-    public Supervisor(int days_to_shipment, Manager manager, int wage, int workday_duration, String status, Counter counter){
+    public Supervisor(int days_to_shipment, Manager manager, int wage, int workday_duration, String status, Counter counter, int standardCarPrice){
         this.days_to_shipment = days_to_shipment;
         this.manager = manager;
         this.workday_duration = workday_duration;
@@ -38,6 +38,7 @@ public class Supervisor extends Thread{
         this.time = 0;
         this.chose_time = false;
         this.counter = counter;
+        this.standardCarPrice = standardCarPrice;
     };
 
     public int getDays_to_shipment() {
@@ -63,7 +64,7 @@ public class Supervisor extends Thread{
                 try {
                     sleep(this.workday_duration);
                     this.manager.days = 0;
-                    this.counter.update_sales_income(400000);
+                    this.counter.update_sales_income(this.standardCarPrice);
                     System.out.println(this.counter.income);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Supervisor.class.getName()).log(Level.SEVERE, null, ex);

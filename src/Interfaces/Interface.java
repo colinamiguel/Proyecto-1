@@ -182,8 +182,9 @@ public class Interface extends javax.swing.JFrame {
             }
             // Escribir encabezados
             bufferedWriter.newLine();
-
+            
             for (int i = 0; i < this.plants.length; i++) {
+                System.out.println(this.plants[i].name);
                 String[] row1 = {this.plants[i].name, this.plants[i].counter.wage_expenses + "", this.plants[i].counter.material_expenses + "", this.plants[i].counter.days_to_shipment + "", this.plants[i].counter.cars_assembled + "", this.plants[i].counter.numberof_assemblers + "", this.plants[i].counter.numberof_producers + "", this.plants[i].counter.income + ""};
                 for (int n = 0; n < row1.length; n++) {
                     bufferedWriter.write(row1[n]);

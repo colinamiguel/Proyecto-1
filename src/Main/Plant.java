@@ -78,7 +78,7 @@ public class Plant {
         
         
         Manager manager = new Manager(1, 40, "", 24.0, 0, this.counter, 2,2,2,2);
-        Supervisor supervisor = new Supervisor(5, manager,40, 24, "", this.counter);
+        Supervisor supervisor = new Supervisor(5, manager,40, 24, "", this.counter, (int) Math.round(this.standardCarPrice));
         
         manager.start();
         supervisor.start();
