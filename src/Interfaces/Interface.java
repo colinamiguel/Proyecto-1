@@ -44,6 +44,22 @@ public class Interface extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         uploadData = new javax.swing.JButton();
         downloadData = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        msgcenter = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        enginelabel = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        chasislabel = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        bodyworklabel = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        wheelslabel = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -57,6 +73,7 @@ public class Interface extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
 
@@ -71,7 +88,7 @@ public class Interface extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(377, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,12 +98,15 @@ public class Interface extends javax.swing.JFrame {
                 .addContainerGap(56, Short.MAX_VALUE))
         );
 
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         addPlantBtn.setText("Add Plant");
         addPlantBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addPlantBtnActionPerformed(evt);
             }
         });
+        getContentPane().add(addPlantBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 219, 306, 75));
 
         run.setText("Run");
         run.addActionListener(new java.awt.event.ActionListener() {
@@ -94,6 +114,7 @@ public class Interface extends javax.swing.JFrame {
                 runActionPerformed(evt);
             }
         });
+        getContentPane().add(run, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 334, 306, 75));
 
         jButton3.setText("Download Results");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -101,6 +122,7 @@ public class Interface extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 436, 306, 75));
 
         uploadData.setText("Upload Data");
         uploadData.addActionListener(new java.awt.event.ActionListener() {
@@ -108,6 +130,7 @@ public class Interface extends javax.swing.JFrame {
                 uploadDataActionPerformed(evt);
             }
         });
+        getContentPane().add(uploadData, new org.netbeans.lib.awtextra.AbsoluteConstraints(233, 582, 105, 35));
 
         downloadData.setText("Download Data");
         downloadData.addActionListener(new java.awt.event.ActionListener() {
@@ -115,42 +138,58 @@ public class Interface extends javax.swing.JFrame {
                 downloadDataActionPerformed(evt);
             }
         });
+        getContentPane().add(downloadData, new org.netbeans.lib.awtextra.AbsoluteConstraints(233, 529, -1, 35));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(244, 244, 244)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addPlantBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(250, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(uploadData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(downloadData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(14, 14, 14))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
-                .addComponent(addPlantBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(downloadData, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(uploadData, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
-        );
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("N/A");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(644, 249, 135, -1));
+
+        msgcenter.setColumns(20);
+        msgcenter.setRows(5);
+        jScrollPane1.setViewportView(msgcenter);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 484, 329, 133));
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("N/A");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 280, 130, -1));
+
+        jLabel4.setText("Stock motores:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(502, 330, 80, -1));
+
+        jLabel5.setText("Días transcurridos");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 160, -1, -1));
+
+        enginelabel.setText("0");
+        getContentPane().add(enginelabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 330, 50, -1));
+
+        jLabel6.setText("Estado del supervisor:");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 280, -1, -1));
+
+        jLabel7.setText("Stock chasis:");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 360, -1, -1));
+
+        chasislabel.setText("0");
+        getContentPane().add(chasislabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 360, 50, -1));
+
+        jLabel8.setText("Stock carrocería:");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(491, 390, 100, -1));
+
+        bodyworklabel.setText("0");
+        getContentPane().add(bodyworklabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 390, 50, -1));
+
+        jLabel9.setText("Stock wheels:");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 420, 90, -1));
+
+        wheelslabel.setText("0");
+        getContentPane().add(wheelslabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 420, 50, -1));
+
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("0");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 180, 40, -1));
+
+        jLabel11.setText("Estado del gerente:");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 250, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -158,6 +197,7 @@ public class Interface extends javax.swing.JFrame {
     private void runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
         if (this.plants.length > 0) {
             for (int i = 0; i < this.plants.length; i++) {
+                this.plants[i].interfaz = this;
                 this.plants[i].start();
             }
             JOptionPane.showMessageDialog(null, "Simulation started succesfully.");
@@ -273,12 +313,28 @@ public class Interface extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addPlantBtn;
+    public javax.swing.JLabel bodyworklabel;
+    public javax.swing.JLabel chasislabel;
     private javax.swing.JButton downloadData;
+    public javax.swing.JLabel enginelabel;
     private javax.swing.JButton jButton3;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    public javax.swing.JLabel jLabel2;
+    public javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JTextArea msgcenter;
     private javax.swing.JButton run;
     private javax.swing.JButton uploadData;
+    public javax.swing.JLabel wheelslabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,7 +1,9 @@
 package Main;
 
+import Interfaces.Interface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -29,8 +31,10 @@ public class Producers extends Thread {
     private double sleep;
     private int days;
     private Counter counter;
+    public Interface interfaz;
+    public JLabel label;
     
-    public Producers(Integer id, int capacity, Integer wage, Integer parts_produced, String type, boolean working, Warehouse warehouse, String status, boolean hired, int workday_duration, int days, Counter counter){
+    public Producers(Integer id, int capacity, Integer wage, Integer parts_produced, String type, boolean working, Warehouse warehouse, String status, boolean hired, int workday_duration, int days, Counter counter, Interface interfaz){
         this.producer_id = id;
         this.capacity = capacity;
         this.wage = wage;
@@ -43,6 +47,8 @@ public class Producers extends Thread {
         this.workday_duration = workday_duration;
         this.days = days;
         this.counter = counter;
+        this.interfaz = interfaz;
+        this.label = label;
     };
 
     public int getWorkday_duration() {
@@ -142,6 +148,7 @@ public class Producers extends Thread {
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
                 this.sleep = (24000);
+                this.label = this.interfaz.chasislabel;
                 break;
             case "carroceria":
                 this.producer_id = producer_id;
@@ -156,6 +163,7 @@ public class Producers extends Thread {
                 this.workday_duration = workday_duration;
                 this.days = days;
                 this.sleep = (24000);
+                this.label = this.interfaz.bodyworklabel;
                 break;
             case "motor":
                 this.producer_id = producer_id;
@@ -170,6 +178,7 @@ public class Producers extends Thread {
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
                 this.sleep = (24000);
+                this.label = this.interfaz.enginelabel;
                 break;
             case "rueda":
                 this.producer_id = producer_id;
@@ -184,6 +193,7 @@ public class Producers extends Thread {
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
                 this.sleep = (24000);
+                this.label = this.interfaz.wheelslabel;
                 break;
             case "accesorio":
                 this.producer_id = producer_id;
@@ -205,17 +215,25 @@ public class Producers extends Thread {
         while(this.hired){
             try {
                 System.out.println("El trabajador " + this.producer_id + " está " + this.status);
+                this.interfaz.msgcenter.append("El trabajador " +Integer.toString(this.producer_id) + " está "  + this.status + "\n");
+                this.interfaz.jLabel2.setText((this.status));
                 sleep((long) this.sleep);
                 this.warehouse.semaphore.acquire(1);
                 if(this.warehouse.capacity - this.warehouse.available_parts >= 1){
                     this.warehouse.store_parts(1);
+                    this.label.setText(Integer.toString(this.warehouse.available_parts));
                     System.out.println("Se ha agregado una parte al almacén de " + this.type);
+                    this.interfaz.msgcenter.append("Se ha agregado una parte al almacén de " + this.type + "\n");
+                    
                     System.out.println("Las partes disponibles en el almacén de " + this.type + " es de " + this.warehouse.available_parts);
+                    
                     this.warehouse.update_status("La capacidad disponible del almacén de " + this.warehouse.type + " es de " + String.valueOf(this.warehouse.capacity - this.warehouse.available_parts) + " partes.");
-                    //System.out.println(this.warehouse.status);
+                    this.interfaz.msgcenter.append(this.warehouse.status + "\n");
                     this.warehouse.semaphore.release();
                 }else{
                     this.status = "OCIOSO";
+                   
+                    this.interfaz.msgcenter.append("El trabajador " +Integer.toString(this.producer_id) + " está " + this.status  + "\n");
                     //System.out.println("No se pudo almacenar una nueva parte en el alacén de: " + this.warehouse.type);
                     this.warehouse.semaphore.release();
                 

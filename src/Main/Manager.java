@@ -1,6 +1,7 @@
 package Main;
 
 
+import Interfaces.Interface;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,8 +32,10 @@ public class Manager extends Thread{
     private int producers_wage;
     private int managers_wage;
     private int supervisors_wage;
+    public Interface interfaz;
         
-    public Manager(int managers_id, int wage, String status, double workday_duration, int days, Counter counter, int assemblers_wage, int producers_wage, int managers_wage, int supervisors_wage){
+    public Manager(int managers_id, int wage, String status, double workday_duration, int days, Counter counter, int assemblers_wage, 
+                    int producers_wage, int managers_wage, int supervisors_wage, Interface interfaz){
         this.managers_id = managers_id;
         this.days_counter = days_counter;
         this.wage = wage;
@@ -47,6 +50,7 @@ public class Manager extends Thread{
         this.producers_wage = producers_wage;
         this.managers_wage = managers_wage;
         this.supervisors_wage = supervisors_wage;
+        this.interfaz = interfaz;
     };
 
     public boolean isHired() {
@@ -114,11 +118,13 @@ public class Manager extends Thread{
                     sleep((long) ((this.workday_duration/48)*1000));
 
                     this.status = "VIENDO CARRERAS";
+                    this.interfaz.jLabel2.setText(this.status);
                     System.out.println("El gerente esta: " + this.status);
                     this.current_time = this.current_time + (this.workday_duration/48)*1000;
 
                     sleep((long) ((this.workday_duration/48)*1000));
                     this.status = "REVISANDO CONTABILIDAD";
+                    this.interfaz.jLabel2.setText(this.status);
                     System.out.println("El gerente esta: " + this.status);
                     this.current_time = this.current_time + ((this.workday_duration/48*1000));
                 } catch (InterruptedException ex) {
@@ -140,6 +146,7 @@ public class Manager extends Thread{
                 this.current_time = 0;
                 System.out.println("SE HA ACABADO EL DÍA");
                 System.out.println(this.days);
+                this.interfaz.jLabel10.setText(Integer.toString(days));
                 
                 this.counter.update_assemblers_expenses(this.assemblers_wage);
                 this.counter.update_producers_expenses(this.producers_wage);

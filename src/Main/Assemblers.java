@@ -1,5 +1,7 @@
 package Main;
 
+import Interfaces.Interface;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,10 +33,12 @@ public class Assemblers extends Thread{
     private int workday_duration;
     private double sleep;
     private Counter counter;
+    private Semaphore semaphore;
+    public Interface interfaz;
     
     public Assemblers(int assembler_id, float capacity, int wage, int cars_assembled, boolean hired, boolean working, String status, 
                       Warehouse chasis_warehouse, Warehouse wheels_warehouse, Warehouse bodywork_warehouse, Warehouse accesory_warehouse, 
-                      Warehouse engine_warehouse,int days, int workday_duration, Counter counter){
+                      Warehouse engine_warehouse,int days, int workday_duration, Counter counter, Interface interfaz){
         
         this.assembler_id = assembler_id;
         this.capacity = capacity;
@@ -51,6 +55,8 @@ public class Assemblers extends Thread{
         this.days = days;
         this.sleep = sleep;
         this.counter = counter;
+        this.interfaz = interfaz;
+        
     };
 
     public Warehouse getChasis_warehouse() {
@@ -143,26 +149,28 @@ public class Assemblers extends Thread{
     
     @Override
     public void run(){
-         
-        this.sleep = (24000)*2;
-        
+
         while(this.hired){
             try {
-                this.accesory_warehouse.semaphore.acquire(1);
-                this.bodywork_warehouse.semaphore.acquire(1);
-                this.chasis_warehouse.semaphore.acquire(1);
-                this.wheels_warehouse.semaphore.acquire(1);
+                this.accesory_warehouse.semaphore.acquire();
+                this.bodywork_warehouse.semaphore.acquire();
+                this.chasis_warehouse.semaphore.acquire();
+                this.wheels_warehouse.semaphore.acquire();
                 
                 if(this.bodywork_warehouse.available_parts >= 1 & this.chasis_warehouse.available_parts >= 1 & this.wheels_warehouse.available_parts >= 4 & this.engine_warehouse.available_parts >= 1){
 
                     this.bodywork_warehouse.withdraw_parts(1);
                     this.bodywork_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.bodywork_warehouse.available_parts);
+                    this.interfaz.msgcenter.append(this.bodywork_warehouse.status + "\n");
                     this.chasis_warehouse.withdraw_parts(1);
                     this.chasis_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.chasis_warehouse.available_parts);
+                    this.interfaz.msgcenter.append(this.chasis_warehouse.status + "\n");
                     this.wheels_warehouse.withdraw_parts(4);
                     this.wheels_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.wheels_warehouse.available_parts);
+                    this.interfaz.msgcenter.append(this.wheels_warehouse.status + "\n");
                     this.engine_warehouse.withdraw_parts(1);
-                    
+                    this.engine_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.engine_warehouse.available_parts);
+                    this.interfaz.msgcenter.append(this.engine_warehouse.status + "\n");
                     this.accesory_warehouse.semaphore.release();
                     this.bodywork_warehouse.semaphore.release();
                     this.chasis_warehouse.semaphore.release();
@@ -170,29 +178,37 @@ public class Assemblers extends Thread{
                     
                     this.engine_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.engine_warehouse.available_parts);
                     this.status = "TRABAJANDO";
+                    
+                    this.interfaz.msgcenter.append(this.status + "\n");
+                    
                     System.out.println(this.status);
-                    System.out.println("Se han retirado las partes del almacén.");              
-                    sleep((long) this.sleep);
+                    System.out.println("Se han retirado las partes del almacén.");
+                    this.interfaz.msgcenter.append("Se han retirado las partes del almacén.\n");
+                    sleep(48000);
                     
                     this.cars_assembled = this.cars_assembled + 1;
                     
                     System.out.println("El trabajador " + this.assembler_id + " ha ensamblado un carro.");
+                    this.interfaz.msgcenter.append("El trabajador " + this.assembler_id + " ha ensamblado un carro.\n");
                     System.out.println("Numero de carros ensamblados por el ensamblador " + this.assembler_id + " " + this.cars_assembled);
+                    this.interfaz.msgcenter.append("Numero de carros ensamblados por el ensamblador " + this.assembler_id + " " + this.cars_assembled + "\n");
                     this.counter.cars_assembled = this.counter.cars_assembled + 1;
                    
                 }else{
-                    
+                     
                     this.accesory_warehouse.semaphore.release();
                     this.bodywork_warehouse.semaphore.release();
                     this.chasis_warehouse.semaphore.release();
                     this.wheels_warehouse.semaphore.release();
                     
                     this.status = "OCIOSO";
+                    this.interfaz.msgcenter.append(this.status);
+                    
                 };
                 
             } catch (InterruptedException ex) {
                 Logger.getLogger(Assemblers.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            };
         };
     };  
 };
