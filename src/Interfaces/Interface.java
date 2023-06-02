@@ -1,4 +1,5 @@
 package Interfaces;
+
 import Main.Generator;
 import Main.Plant;
 import javax.swing.JOptionPane;
@@ -7,16 +8,20 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+
 /**
  *
  * @author USER
  */
 public class Interface extends javax.swing.JFrame {
-     Plant[] plants;
+
+    Plant[] plants;
+
     /**
      * Creates new form Interface
      */
-    public Interface( Plant[] plants) {
+    public Interface(Plant[] plants) {
         initComponents();
         setLocationRelativeTo(null);
         this.plants = plants;
@@ -162,7 +167,40 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_runActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        String[] header = {"plant", "wage expenses", "material expenses", "days to shipment", "cars assembled", "assemblers", "producers", "income"};
+
+        try {
+            FileWriter fileWriter = new FileWriter("datos.csv");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            for (int i = 0; i < header.length; i++) {
+                bufferedWriter.write(header[i]);
+
+                if (i != header.length - 1) {
+                    bufferedWriter.write(",");
+                }
+            }
+            // Escribir encabezados
+            bufferedWriter.newLine();
+
+            for (int i = 0; i < this.plants.length; i++) {
+                String[] row1 = {this.plants[i].name, this.plants[i].counter.wage_expenses + "", this.plants[i].counter.material_expenses + "", this.plants[i].counter.days_to_shipment + "", this.plants[i].counter.cars_assembled + "", this.plants[i].counter.numberof_assemblers + "", this.plants[i].counter.numberof_producers + "", this.plants[i].counter.income + ""};
+                for (int n = 0; n < row1.length; n++) {
+                    bufferedWriter.write(row1[n]);
+
+                    if (i != row1.length - 1) {
+                        bufferedWriter.write(",");
+                    }
+                }
+
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.close();
+
+            System.out.println("Archivo CSV escrito exitosamente.");
+        } catch (Exception e) {
+            System.out.println("Error al escribir archivo CSV: " + e.getMessage());
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void addPlantBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPlantBtnActionPerformed
@@ -171,7 +209,7 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_addPlantBtnActionPerformed
 
     private void uploadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadDataActionPerformed
-        String aux = ""; 
+        String aux = "";
         try {
             JFileChooser file = new JFileChooser();
             file.showOpenDialog(file);
@@ -181,21 +219,20 @@ public class Interface extends javax.swing.JFrame {
                 FileReader files = new FileReader(open);
                 BufferedReader read = new BufferedReader(files);
                 while ((aux = read.readLine()) != null) {
-                        String[] data = aux.split(",");
-                        Generator generator = new Generator(Integer.parseInt(data[0]));
-                        Plant plant = new Plant(data[1], Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]), Float.parseFloat(data[7]), Float.parseFloat(data[8]), Integer.parseInt(data[9]), generator);
+                    String[] data = aux.split(",");
+                    Generator generator = new Generator(Integer.parseInt(data[0]));
+                    Plant plant = new Plant(data[1], Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]), Float.parseFloat(data[7]), Float.parseFloat(data[8]), Integer.parseInt(data[9]), generator);
 
+                    Plant[] newArray = new Plant[this.plants.length + 1];
 
-                        Plant[] newArray = new Plant[this.plants.length + 1];
-
-                          for (int i = 0; i < this.plants.length; i++) {
-                              newArray[i] = this.plants[i];
-                          }
-
-                          newArray[newArray.length - 1] = plant;
-                          this.plants = newArray;
-              
+                    for (int i = 0; i < this.plants.length; i++) {
+                        newArray[i] = this.plants[i];
                     }
+
+                    newArray[newArray.length - 1] = plant;
+                    this.plants = newArray;
+
+                }
                 read.close();
             }
         } catch (Exception ex) {
@@ -214,9 +251,9 @@ public class Interface extends javax.swing.JFrame {
             if (selectedFile != null) {
                 String message = "";
                 for (int i = 0; i < this.plants.length; i++) {
-                    message +=  this.plants[i].name + "," + this.plants[i].generatedValues.getGeneratorNumber() + "," + this.plants[i].chasisPartsRequired + "," + this.plants[i].enginePartsRequired + "," + this.plants[i].bodyWorkPartsRequired + "," + this.plants[i].accesoriesPartsRequired + "," + this.plants[i].wheelsPartsRequired + "," + this.plants[i].standardCarPrice + "," + this.plants[i].accesoriesCarPrice + "," + this.plants[i].standardCarsBeforeAccesories + "," + "\n";
+                    message += this.plants[i].name + "," + this.plants[i].generatedValues.getGeneratorNumber() + "," + this.plants[i].chasisPartsRequired + "," + this.plants[i].enginePartsRequired + "," + this.plants[i].bodyWorkPartsRequired + "," + this.plants[i].accesoriesPartsRequired + "," + this.plants[i].wheelsPartsRequired + "," + this.plants[i].standardCarPrice + "," + this.plants[i].accesoriesCarPrice + "," + this.plants[i].standardCarsBeforeAccesories + "," + "\n";
                 }
-                
+
                 FileWriter save;
                 save = new FileWriter(selectedFile);
                 save.write(message);
