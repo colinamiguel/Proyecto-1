@@ -141,7 +141,7 @@ public class Producers extends Thread {
                 this.hired = hired;
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
-                this.sleep = (Double.valueOf(days)*Double.valueOf(workday_duration)/Double.valueOf(capacity))*100;
+                this.sleep = (24000);
                 break;
             case "carroceria":
                 this.producer_id = producer_id;
@@ -155,7 +155,7 @@ public class Producers extends Thread {
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
                 this.days = days;
-                this.sleep = (Double.valueOf(days)*Double.valueOf(workday_duration)/Double.valueOf(capacity))*100;
+                this.sleep = (24000);
                 break;
             case "motor":
                 this.producer_id = producer_id;
@@ -169,7 +169,7 @@ public class Producers extends Thread {
                 this.hired = hired;
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
-                this.sleep = (Double.valueOf(days)*Double.valueOf(workday_duration)/Double.valueOf(capacity))*100;
+                this.sleep = (24000);
                 break;
             case "rueda":
                 this.producer_id = producer_id;
@@ -183,7 +183,7 @@ public class Producers extends Thread {
                 this.hired = hired;
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
-                this.sleep = (Double.valueOf(days)*Double.valueOf(workday_duration)/Double.valueOf(capacity))*100;
+                this.sleep = (24000);
                 break;
             case "accesorio":
                 this.producer_id = producer_id;
@@ -197,7 +197,7 @@ public class Producers extends Thread {
                 this.hired = hired;
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
-                this.sleep = (Double.valueOf(days)*Double.valueOf(workday_duration)/Double.valueOf(capacity))*100;
+                this.sleep = (24000);
                 break;
         };
         
@@ -216,7 +216,7 @@ public class Producers extends Thread {
                     this.warehouse.semaphore.release();
                 }else{
                     this.status = "OCIOSO";
-                    System.out.println("No se pudo almacenar una nueva parte en el alacén de: " + this.warehouse.type);
+                    //System.out.println("No se pudo almacenar una nueva parte en el alacén de: " + this.warehouse.type);
                     this.warehouse.semaphore.release();
                 
             };

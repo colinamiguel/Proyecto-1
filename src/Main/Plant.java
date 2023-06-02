@@ -39,7 +39,7 @@ public class Plant {
     }
     
     public void start(){
-        String[] works = {"chasis", "engines", "wheels", "bodyWork", "accesories"};
+        String[] works = {"chasis", "motor", "rueda", "carroceria", "accesorio"};
         int[] capacities = {25, 55, 35, 20, 10};
         int[] wages = {10, 20, 8, 13, 17};
         

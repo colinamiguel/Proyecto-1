@@ -144,7 +144,7 @@ public class Assemblers extends Thread{
     @Override
     public void run(){
          
-        this.sleep = (Double.valueOf(days)*Double.valueOf(workday_duration)/Double.valueOf(capacity))*100;
+        this.sleep = (24000)*2;
         
         while(this.hired){
             try {
@@ -176,11 +176,10 @@ public class Assemblers extends Thread{
                     
                     this.cars_assembled = this.cars_assembled + 1;
                     
-                    System.out.println("El trabajador " + this.assembler_id + " ha ensamblado un carro");
-                    System.out.println("***Numero de carros ensamblados por el ensamblador " + this.assembler_id + " " + this.cars_assembled);
+                    System.out.println("El trabajador " + this.assembler_id + " ha ensamblado un carro.");
+                    System.out.println("Numero de carros ensamblados por el ensamblador " + this.assembler_id + " " + this.cars_assembled);
                     this.counter.cars_assembled = this.counter.cars_assembled + 1;
-                    
-                    
+                   
                 }else{
                     
                     this.accesory_warehouse.semaphore.release();
