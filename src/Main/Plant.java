@@ -44,9 +44,11 @@ public class Plant {
         int[] capacities = {25, 55, 35, 20, 10};
         int[] wages = {10, 20, 8, 13, 17};
         
+        int quotient = this.generatedValues.workers / (works.length + 1);
+        int remainder = generatedValues.workers % (works.length + 1);
         
         Warehouse[] wareHouses = new Warehouse[works.length];
-        this.counter = new Counter(5, 1, 1);
+        this.counter = new Counter(5, this.generatedValues.workers - quotient - remainder , quotient + remainder);
         
         for (int i = 0; i < works.length; i++) {
             Semaphore semaphore = new Semaphore(1);
@@ -55,8 +57,7 @@ public class Plant {
             wareHouses[i] = warehouse;
         }
         
-        int quotient = this.generatedValues.workers / (works.length + 1);
-        int remainder = generatedValues.workers % (works.length + 1);
+        
         
         int section = 0;
         int workersInSection = 0;
