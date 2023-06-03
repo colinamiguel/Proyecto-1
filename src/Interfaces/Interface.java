@@ -220,7 +220,7 @@ public class Interface extends javax.swing.JFrame {
             if (selectedFile != null) {
                 String message = "";
                 for (int i = 0; i < this.plants.length; i++) {
-                    message += this.plants[i].name + "," + this.plants[i].generatedValues.getGeneratorNumber() + "," + this.plants[i].chasisPartsRequired + "," + this.plants[i].enginePartsRequired + "," + this.plants[i].bodyWorkPartsRequired + "," + this.plants[i].accesoriesPartsRequired + "," + this.plants[i].wheelsPartsRequired + "," + this.plants[i].standardCarPrice + "," + this.plants[i].accesoriesCarPrice + "," + this.plants[i].standardCarsBeforeAccesories + "," + "\n";
+                    message += this.plants[i].generatedValues.getGeneratorNumber() + "," + this.plants[i].name + "," + this.plants[i].chasisPartsRequired + "," + this.plants[i].enginePartsRequired + "," + this.plants[i].bodyWorkPartsRequired + "," + this.plants[i].accesoriesPartsRequired + "," + this.plants[i].wheelsPartsRequired + "," + this.plants[i].standardCarPrice + "," + this.plants[i].accesoriesCarPrice + "," + this.plants[i].standardCarsBeforeAccesories + "," + "\n";
                 }
 
                 FileWriter save;
