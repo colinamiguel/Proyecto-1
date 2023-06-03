@@ -313,7 +313,7 @@ public class addPlant extends javax.swing.JFrame {
           int wheelParts = this.stringToIntParser(this.wheelParts.getText());
           
           Generator generator = new Generator(generatorNumber);
-          Plant plant = new Plant(this.PlantName.getText(), chasisParts, engineParts, bodyWorksParts, accesories, wheelParts, standardCarPrice, accesoriesCarPrice, standardCarNumber, generator);
+          Plant plant = new Plant(this.PlantName.getText(), chasisParts, engineParts, bodyWorksParts, accesories, wheelParts, standardCarPrice, accesoriesCarPrice, standardCarNumber, generator, this.plants.length);
           
           
           Plant[] newArray = new Plant[this.plants.length + 1];

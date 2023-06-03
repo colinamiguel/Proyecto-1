@@ -1,7 +1,7 @@
 package Main;
 
 
-import Interfaces.Interface;
+import Interfaces.Logs;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @author USER
  */
 public class Manager extends Thread{
-    
+    private int plant_id;
     private int managers_id;
     private int days_counter;
     private int wage;
@@ -32,10 +32,10 @@ public class Manager extends Thread{
     private int producers_wage;
     private int managers_wage;
     private int supervisors_wage;
-    public Interface interfaz;
+    public Logs interfaz;
         
     public Manager(int managers_id, int wage, String status, double workday_duration, int days, Counter counter, int assemblers_wage, 
-                    int producers_wage, int managers_wage, int supervisors_wage, Interface interfaz){
+                    int producers_wage, int managers_wage, int supervisors_wage, Logs interfaz, int plant_id){
         this.managers_id = managers_id;
         this.days_counter = days_counter;
         this.wage = wage;
@@ -51,6 +51,7 @@ public class Manager extends Thread{
         this.managers_wage = managers_wage;
         this.supervisors_wage = supervisors_wage;
         this.interfaz = interfaz;
+        this.plant_id = plant_id;
     };
 
     public boolean isHired() {
@@ -118,13 +119,22 @@ public class Manager extends Thread{
                     sleep((long) ((this.workday_duration/48)*1000));
 
                     this.status = "VIENDO CARRERAS";
-                    this.interfaz.jLabel2.setText(this.status);
+                    if (this.plant_id == 0) {
+                        this.interfaz.managerlabel.setText(this.status);
+                    } else {
+                        this.interfaz.managerlabel1.setText(this.status);
+                    }
+                    
                     System.out.println("El gerente esta: " + this.status);
                     this.current_time = this.current_time + (this.workday_duration/48)*1000;
 
                     sleep((long) ((this.workday_duration/48)*1000));
                     this.status = "REVISANDO CONTABILIDAD";
-                    this.interfaz.jLabel2.setText(this.status);
+                    if (this.plant_id == 0) {
+                        this.interfaz.managerlabel.setText(this.status);
+                    } else {
+                        this.interfaz.managerlabel1.setText(this.status);
+                    }
                     System.out.println("El gerente esta: " + this.status);
                     this.current_time = this.current_time + ((this.workday_duration/48*1000));
                 } catch (InterruptedException ex) {
@@ -133,7 +143,11 @@ public class Manager extends Thread{
             };
                 try {
                     this.status = "ACTUALIZANDO CONTADOR";
-                    this.interfaz.jLabel2.setText(this.status);
+                    if (this.plant_id == 0) {
+                        this.interfaz.managerlabel.setText(this.status);
+                    } else {
+                        this.interfaz.managerlabel1.setText(this.status);
+                    }
                     System.out.println("El gerente esta " + this.status);
                     sleep((long) (((this.workday_duration)/2)*1000));
                     this.current_time = this.current_time + ((this.workday_duration/2*1000));

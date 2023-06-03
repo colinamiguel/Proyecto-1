@@ -11,12 +11,13 @@ package Main;
  * @author USER
  */
 
-import Interfaces.Interface;
+import Interfaces.Logs;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Supervisor extends Thread{
+    public int plant_id;
     public int standardCarPrice;
     public int days_to_shipment;
     private Manager manager;
@@ -28,9 +29,9 @@ public class Supervisor extends Thread{
     private int time;
     private boolean chose_time;
     private Counter counter;
-    public Interface interfaz;
+    public Logs interfaz;
     
-    public Supervisor(int days_to_shipment, Manager manager, int wage, int workday_duration, String status, Counter counter, int standardCarPrice, Interface interfaz){
+    public Supervisor(int days_to_shipment, Manager manager, int wage, int workday_duration, String status, Counter counter, int standardCarPrice, Logs interfaz,int  plant_id){
         this.days_to_shipment = days_to_shipment;
         this.manager = manager;
         this.workday_duration = workday_duration;
@@ -42,6 +43,7 @@ public class Supervisor extends Thread{
         this.counter = counter;
         this.standardCarPrice = standardCarPrice;
         this.interfaz = interfaz;
+        this.plant_id = plant_id;
     };
 
     public int getDays_to_shipment() {
@@ -63,8 +65,11 @@ public class Supervisor extends Thread{
             
             if(this.manager.days == this.days_to_shipment){
                 this.status = "PREPARANDO ENVÍO A CONCESIONARIO";
-                this.interfaz.jLabel3.setText(this.status);
-                
+                if (this.plant_id == 0) {
+                    this.interfaz.supervisorlabel.setText(this.status);
+                } else {
+                    this.interfaz.supervisorlabel1.setText(this.status);
+                }
                 System.out.println(this.status);
                 try {
                     sleep(this.workday_duration);
@@ -78,7 +83,11 @@ public class Supervisor extends Thread{
             }else{
                 
                 this.status = "TAREAS ADMINISTRATIVAS";
-                this.interfaz.jLabel3.setText(this.status);
+                if (this.plant_id == 0) {
+                    this.interfaz.supervisorlabel.setText(this.status);
+                } else {
+                    this.interfaz.supervisorlabel1.setText(this.status);
+                }
                                                 
                 if(this.supervised == false){
                     
@@ -94,7 +103,12 @@ public class Supervisor extends Thread{
                             if(this.manager.status == "VIENDO CARRERAS"){                          
                                 //System.out.println("CAGASTE");
                                 System.out.println("El director ha encontrado al gerente viendo carreras.");
-                                this.interfaz.msgcenter.append("El director ha encontrado al gerente viendo carreras. \n");
+                                if (this.plant_id == 0) {
+                    this.interfaz.msgcenter.append("El director ha encontrado al gerente viendo carreras. \n");
+                } else {
+                    this.interfaz.msgcenter.append("El director ha encontrado al gerente viendo carreras. \n");
+                }
+                                
                                 this.counter.wage_discount = this.counter.wage_discount + 50;
                             }
                         } catch (InterruptedException ex) {

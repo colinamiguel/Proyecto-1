@@ -11,7 +11,7 @@ package Main;
  * @author USER
  */
 
-import Interfaces.Interface;
+import Interfaces.Logs;
 import java.util.concurrent.Semaphore;
 
 public class Warehouse {
@@ -23,9 +23,9 @@ public class Warehouse {
     public Semaphore semaphore;
     public Counter counter;
     public Semaphore s;
-    public Interface interfaz;
+    public Logs interfaz;
     
-    public Warehouse(int capacity, String type, Counter counter, Interface interfaz){
+    public Warehouse(int capacity, String type, Counter counter, Logs interfaz){
         this.capacity = capacity;
         this.type = type;
         this.status = status;

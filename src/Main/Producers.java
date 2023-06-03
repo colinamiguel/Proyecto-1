@@ -1,6 +1,6 @@
 package Main;
 
-import Interfaces.Interface;
+import Interfaces.Logs;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 
 public class Producers extends Thread {
     
+    private int plant_id;
     private int producer_id;
     private int capacity;
     private Integer wage;
@@ -31,10 +32,10 @@ public class Producers extends Thread {
     private double sleep;
     private int days;
     private Counter counter;
-    public Interface interfaz;
+    public Logs interfaz;
     public JLabel label;
     
-    public Producers(Integer id, int capacity, Integer wage, Integer parts_produced, String type, boolean working, Warehouse warehouse, String status, boolean hired, int workday_duration, int days, Counter counter, Interface interfaz){
+    public Producers(Integer id, int capacity, Integer wage, Integer parts_produced, String type, boolean working, Warehouse warehouse, String status, boolean hired, int workday_duration, int days, Counter counter, Logs interfaz, int plant_id){
         this.producer_id = id;
         this.capacity = capacity;
         this.wage = wage;
@@ -49,6 +50,7 @@ public class Producers extends Thread {
         this.counter = counter;
         this.interfaz = interfaz;
         this.label = label;
+        this.plant_id = plant_id;
     };
 
     public int getWorkday_duration() {
@@ -148,7 +150,12 @@ public class Producers extends Thread {
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
                 this.sleep = (24000);
-                this.label = this.interfaz.chasislabel;
+                if (this.plant_id == 0) {
+                    this.label = this.interfaz.chasislabel;
+                } else {
+                    this.label = this.interfaz.chasislabel1;
+                }
+                
                 break;
             case "carroceria":
                 this.producer_id = producer_id;
@@ -163,7 +170,11 @@ public class Producers extends Thread {
                 this.workday_duration = workday_duration;
                 this.days = days;
                 this.sleep = (24000);
-                this.label = this.interfaz.bodyworklabel;
+                if (this.plant_id == 0) {
+                    this.label = this.interfaz.bodyworklabel;
+                } else {
+                    this.label = this.interfaz.bodyworklabel1;
+                }
                 break;
             case "motor":
                 this.producer_id = producer_id;
@@ -178,7 +189,11 @@ public class Producers extends Thread {
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
                 this.sleep = (24000);
-                this.label = this.interfaz.enginelabel;
+                if (this.plant_id == 0) {
+                    this.label = this.interfaz.enginelabel;
+                } else {
+                    this.label = this.interfaz.enginelabel1;
+                }
                 break;
             case "rueda":
                 this.producer_id = producer_id;
@@ -193,7 +208,11 @@ public class Producers extends Thread {
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
                 this.sleep = (24000);
-                this.label = this.interfaz.wheelslabel;
+                if (this.plant_id == 0) {
+                    this.label = this.interfaz.wheelslabel;
+                } else {
+                    this.label = this.interfaz.wheelslabel1;
+                }
                 break;
             case "accesorio":
                 this.producer_id = producer_id;
@@ -208,7 +227,11 @@ public class Producers extends Thread {
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
                 this.sleep = (24000);
-                this.label = this.interfaz.accesorieslabel;
+                if (this.plant_id == 0) {
+                    this.label = this.interfaz.accesorieslabel;
+                } else {
+                    this.label = this.interfaz.accesorieslabel1;
+                }
                 break;
         };
         
@@ -216,25 +239,37 @@ public class Producers extends Thread {
         while(this.hired){
             try {
                 System.out.println("El trabajador " + this.producer_id + " está " + this.status);
+                
                 this.interfaz.msgcenter.append("El trabajador " +Integer.toString(this.producer_id) + " está "  + this.status + "\n");
-                this.interfaz.jLabel2.setText((this.status));
                 sleep((long) this.sleep);
                 this.warehouse.semaphore.acquire(1);
                 if(this.warehouse.capacity - this.warehouse.available_parts >= 1){
                     this.warehouse.store_parts(1);
                     this.label.setText(Integer.toString(this.warehouse.available_parts));
                     System.out.println("Se ha agregado una parte al almacén de " + this.type);
-                    this.interfaz.msgcenter.append("Se ha agregado una parte al almacén de " + this.type + "\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append("Se ha agregado una parte al almacén de " + this.type + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append("Se ha agregado una parte al almacén de " + this.type + "\n");
+                    }
                     
                     System.out.println("Las partes disponibles en el almacén de " + this.type + " es de " + this.warehouse.available_parts);
                     
                     this.warehouse.update_status("La capacidad disponible del almacén de " + this.warehouse.type + " es de " + String.valueOf(this.warehouse.capacity - this.warehouse.available_parts) + " partes.");
-                    this.interfaz.msgcenter.append(this.warehouse.status + "\n");
+                    
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append(this.warehouse.status + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append(this.warehouse.status + "\n");
+                    }
                     this.warehouse.semaphore.release();
                 }else{
                     this.status = "OCIOSO";
-                   
-                    this.interfaz.msgcenter.append("El trabajador " +Integer.toString(this.producer_id) + " está " + this.status  + "\n");
+                   if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append("El trabajador " +Integer.toString(this.producer_id) + " está " + this.status  + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append("El trabajador " +Integer.toString(this.producer_id) + " está " + this.status  + "\n");
+                    }
                     //System.out.println("No se pudo almacenar una nueva parte en el alacén de: " + this.warehouse.type);
                     this.warehouse.semaphore.release();
                 

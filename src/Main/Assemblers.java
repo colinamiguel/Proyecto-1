@@ -1,6 +1,6 @@
 package Main;
 
-import Interfaces.Interface;
+import Interfaces.Logs;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author USER
  */
 public class Assemblers extends Thread{
-    
+    private int plant_id;
     private int assembler_id;
     private float capacity;
     private int wage;
@@ -34,11 +34,11 @@ public class Assemblers extends Thread{
     private double sleep;
     private Counter counter;
     private Semaphore semaphore;
-    public Interface interfaz;
+    public Logs interfaz;
     
     public Assemblers(int assembler_id, float capacity, int wage, int cars_assembled, boolean hired, boolean working, String status, 
                       Warehouse chasis_warehouse, Warehouse wheels_warehouse, Warehouse bodywork_warehouse, Warehouse accesory_warehouse, 
-                      Warehouse engine_warehouse,int days, int workday_duration, Counter counter, Interface interfaz){
+                      Warehouse engine_warehouse,int days, int workday_duration, Counter counter, Logs interfaz, int plant_id){
         
         this.assembler_id = assembler_id;
         this.capacity = capacity;
@@ -56,6 +56,7 @@ public class Assemblers extends Thread{
         this.sleep = sleep;
         this.counter = counter;
         this.interfaz = interfaz;
+        this.plant_id = plant_id;
         
     };
 
@@ -161,16 +162,32 @@ public class Assemblers extends Thread{
 
                     this.bodywork_warehouse.withdraw_parts(1);
                     this.bodywork_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.bodywork_warehouse.available_parts);
-                    this.interfaz.msgcenter.append(this.bodywork_warehouse.status + "\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append(this.bodywork_warehouse.status + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append(this.bodywork_warehouse.status + "\n");
+                    }
                     this.chasis_warehouse.withdraw_parts(1);
                     this.chasis_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.chasis_warehouse.available_parts);
-                    this.interfaz.msgcenter.append(this.chasis_warehouse.status + "\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append(this.chasis_warehouse.status + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append(this.chasis_warehouse.status + "\n");
+                    }
                     this.wheels_warehouse.withdraw_parts(4);
                     this.wheels_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.wheels_warehouse.available_parts);
-                    this.interfaz.msgcenter.append(this.wheels_warehouse.status + "\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append(this.wheels_warehouse.status + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append(this.wheels_warehouse.status + "\n");
+                    }
                     this.engine_warehouse.withdraw_parts(1);
                     this.engine_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.engine_warehouse.available_parts);
-                    this.interfaz.msgcenter.append(this.engine_warehouse.status + "\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append(this.engine_warehouse.status + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append(this.engine_warehouse.status + "\n");
+                    }
                     this.accesory_warehouse.semaphore.release();
                     this.bodywork_warehouse.semaphore.release();
                     this.chasis_warehouse.semaphore.release();
@@ -179,19 +196,35 @@ public class Assemblers extends Thread{
                     this.engine_warehouse.update_status("Se ha retirado una parte del almacén, partes disponibles actualmente: " + this.engine_warehouse.available_parts);
                     this.status = "TRABAJANDO";
                     
-                    this.interfaz.msgcenter.append(this.status + "\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append(this.status + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append(this.status + "\n");
+                    }
                     
                     System.out.println(this.status);
                     System.out.println("Se han retirado las partes del almacén.");
-                    this.interfaz.msgcenter.append("Se han retirado las partes del almacén.\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append("Se han retirado las partes del almacén.\n");
+                    } else {
+                        this.interfaz.msgcenter1.append("Se han retirado las partes del almacén.\n");
+                    }
                     sleep(48000);
                     
                     this.cars_assembled = this.cars_assembled + 1;
                     
                     System.out.println("El trabajador " + this.assembler_id + " ha ensamblado un carro.");
-                    this.interfaz.msgcenter.append("El trabajador " + this.assembler_id + " ha ensamblado un carro.\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append("El trabajador " + this.assembler_id + " ha ensamblado un carro.\n");
+                    } else {
+                        this.interfaz.msgcenter1.append("El trabajador " + this.assembler_id + " ha ensamblado un carro.\n");
+                    }
                     System.out.println("Numero de carros ensamblados por el ensamblador " + this.assembler_id + " " + this.cars_assembled);
-                    this.interfaz.msgcenter.append("Numero de carros ensamblados por el ensamblador " + this.assembler_id + " " + this.cars_assembled + "\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append("Numero de carros ensamblados por el ensamblador " + this.assembler_id + " " + this.cars_assembled + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append("Numero de carros ensamblados por el ensamblador " + this.assembler_id + " " + this.cars_assembled + "\n");
+                    }
                     this.counter.cars_assembled = this.counter.cars_assembled + 1;
                    
                 }else{
@@ -202,7 +235,11 @@ public class Assemblers extends Thread{
                     this.wheels_warehouse.semaphore.release();
                     
                     this.status = "OCIOSO";
-                    this.interfaz.msgcenter.append("El ensamblador " + this.assembler_id + " esta :" + this.status + "\n");
+                    if (this.plant_id == 0) {
+                        this.interfaz.msgcenter.append("El ensamblador " + this.assembler_id + " esta :" + this.status + "\n");
+                    } else {
+                        this.interfaz.msgcenter1.append("El ensamblador " + this.assembler_id + " esta :" + this.status + "\n");
+                    }
                     
                 };
                 
