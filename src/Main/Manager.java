@@ -133,6 +133,7 @@ public class Manager extends Thread{
             };
                 try {
                     this.status = "ACTUALIZANDO CONTADOR";
+                    this.interfaz.jLabel2.setText(this.status);
                     System.out.println("El gerente esta " + this.status);
                     sleep((long) (((this.workday_duration)/2)*1000));
                     this.current_time = this.current_time + ((this.workday_duration/2*1000));

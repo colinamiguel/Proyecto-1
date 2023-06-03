@@ -208,6 +208,7 @@ public class Producers extends Thread {
                 this.status = "TRABAJANDO";
                 this.workday_duration = workday_duration;
                 this.sleep = (24000);
+                this.label = this.interfaz.accesorieslabel;
                 break;
         };
         

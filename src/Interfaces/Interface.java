@@ -60,6 +60,8 @@ public class Interface extends javax.swing.JFrame {
         wheelslabel = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        accesorieslabel = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -191,6 +193,12 @@ public class Interface extends javax.swing.JFrame {
         jLabel11.setText("Estado del gerente:");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 250, -1, -1));
 
+        jLabel12.setText("Stock accesorios:");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 440, 110, -1));
+
+        accesorieslabel.setText("0");
+        getContentPane().add(accesorieslabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 440, 50, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -312,6 +320,7 @@ public class Interface extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JLabel accesorieslabel;
     private javax.swing.JButton addPlantBtn;
     public javax.swing.JLabel bodyworklabel;
     public javax.swing.JLabel chasislabel;
@@ -322,6 +331,7 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     public javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

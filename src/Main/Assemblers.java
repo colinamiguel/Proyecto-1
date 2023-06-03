@@ -202,7 +202,7 @@ public class Assemblers extends Thread{
                     this.wheels_warehouse.semaphore.release();
                     
                     this.status = "OCIOSO";
-                    this.interfaz.msgcenter.append(this.status);
+                    this.interfaz.msgcenter.append("El ensamblador " + this.assembler_id + " esta :" + this.status + "\n");
                     
                 };
                 
