@@ -2,21 +2,15 @@ package Interfaces;
 import Main.Plant;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author luism
- */
 public class Logs extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Logs
-     */
+    public Plant[] plants;
     public Logs(Plant[] plants) {
         initComponents();
+        this.plants = plants;
         if (plants.length > 0) {
-            for (int i = 0; i < plants.length; i++) {
-                plants[i].interfaz = this;
-                plants[i].start();
+            for (int i = 0; i < this.plants.length; i++) {
+                this.plants[i].interfaz = this;
+                this.plants[i].start();
             }
             JOptionPane.showMessageDialog(null, "Simulation started succesfully.");
         } else {
@@ -35,6 +29,7 @@ public class Logs extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        stop = new javax.swing.JButton();
         managerlabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         msgcenter = new javax.swing.JTextArea();
@@ -82,6 +77,13 @@ public class Logs extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Car Assembler Plant simulator");
 
+        stop.setText("Stop");
+        stop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -89,13 +91,17 @@ public class Logs extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addContainerGap(383, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 283, Short.MAX_VALUE)
+                .addComponent(stop)
+                .addGap(22, 22, 22))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(stop))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
 
@@ -378,6 +384,14 @@ public class Logs extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopActionPerformed
+        for (int i = 0; i < this.plants.length; i++) {
+            this.plants[i].stop();
+        }
+        this.setVisible(false);
+        new Interface(this.plants).setVisible(true);
+    }//GEN-LAST:event_stopActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel accesoriesLabel1;
     public javax.swing.JLabel accesorieslabel;
@@ -413,6 +427,7 @@ public class Logs extends javax.swing.JFrame {
     private javax.swing.JLabel plantLabel1;
     public javax.swing.JLabel plantName;
     public javax.swing.JLabel plantName1;
+    private javax.swing.JButton stop;
     private javax.swing.JLabel supervisorLabel1;
     public javax.swing.JLabel supervisorlabel;
     public javax.swing.JLabel supervisorlabel1;

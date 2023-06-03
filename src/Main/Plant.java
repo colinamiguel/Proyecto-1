@@ -28,6 +28,10 @@ public class Plant {
     public Counter counter;
     public Logs interfaz;
     public int id;
+    private Supervisor supervisor;
+    private Manager manager;
+    private Assemblers[] assemblers;
+    private Producers[] producers;
 
     public Plant(String name, int chasisPartsRequired, int enginePartsRequired, int bodyWorkPartsRequired, int accesoriesPartsRequired, int wheelsPartsRequired, float standardCarPrice, float accesoriesCarPrice, int standardCarsBeforeAccesories, Generator generatedValues, int id) {
         this.name = name;
@@ -75,6 +79,15 @@ public class Plant {
             if (workersInSection < quotient) {
                 Producers producer = new Producers(i,this.generatedValues.getWorkCapacity(works[section]),wages[section],0,works[section],true, wareHouses[section], "TRABAJANDO", true,24,2, this.counter, this.interfaz, this.id);
                 producer.start();
+                
+                Producers[] newArray = new Producers[this.producers.length + 1];
+          
+                for (int n = 0; n < this.producers.length; n++) {
+                    newArray[n] = this.producers[n];
+                }
+
+                newArray[newArray.length - 1] = producer;
+                this.producers = newArray;
                 workersInSection += 1;
             } else {
                 section += 1;
@@ -85,14 +98,34 @@ public class Plant {
             Assemblers assembler = new Assemblers(this.generatedValues.getGeneratorNumber() - quotient + i,1,50,0,true, true, "TRABAJANDO", wareHouses[0], 
                                                     wareHouses[2], wareHouses[3], wareHouses[1], wareHouses[4], 2, 24, this.counter, this.interfaz, this.id);
             assembler.start();
+            
+            Assemblers[] newArray = new Assemblers[this.assemblers.length + 1];
+          
+            for (int n = 0; n < this.assemblers.length; n++) {
+                newArray[n] = this.assemblers[n];
+            }
+            
+            newArray[newArray.length - 1] = assembler;
+            this.assemblers = newArray;
         }
         
         
-        Manager manager = new Manager(1, 40, "", 24.0, 0, this.counter, 2,2,2,2, this.interfaz, this.id);
-        Supervisor supervisor = new Supervisor(5, manager,40, 24, "", this.counter, (int) Math.round(this.standardCarPrice), this.interfaz, this.id);
+        this.manager = new Manager(1, 40, "", 24.0, 0, this.counter, 2,2,2,2, this.interfaz, this.id);
+        this.supervisor = new Supervisor(5, manager,40, 24, "", this.counter, (int) Math.round(this.standardCarPrice), this.interfaz, this.id);
         
-        manager.start();
-        supervisor.start();
+        this.manager.start();
+        this.supervisor.start();
+    }
+    
+    public void stop(){
+//        this.manager.stop();
+//        this.supervisor.stop();
+           for (int i = 0; i < assemblers.length; i++) {
+//               this.assemblers[i].stop();
+           }
+           for (int i = 0; i < producers.length; i++) {
+//               this.producers[i].stop();
+           }
     }
     
     
